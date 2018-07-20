@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link src="/stylesheets/style.css" rel="stylesheet" />
+
+<style>
+  .header-body{
+    background-color: #09929f;
+    margin:0px;
+    padding: 20px;
+    color:#fff;
+    width: 100%;
+    text-shadow:0 1px 1px rgba(0,0,0,0.5);
+    font-weight:500;
+    text-align:center;
+    font:bold 30px Georgia;
+  }
+</style>
+</head>
+<body >
+
+<header>
+    <h3 class="header-body">Welcome To <%= title%></h3>
+  </header>
+<% if(err.length){ %>
+<div class="alert alert-info alert-dismissible fade in" style="width: 80%;text-align: center;" >
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong><%= err %></strong>
+</div>
+<% } %>
+<div class="container">
+  <form action="/" method="post"  style="margin-top:10%;background-color:#09929f;border-radius: 5px;">
+    <center>
+
+
+        <center><h1 style="color: white;padding: 10px">Enter Credentials</h1></center>
+
+        <div class="form-group" style="margin: 10px">
+          <input type="text" required="" name="username" class="form-control" placeholder="Username"><br/>
+        </div>
+
+        <div class="form-group" style="margin: 10px">
+          <input type="password" required="" name="password" class="form-control" placeholder="password"><br/>
+        </div>
+
+        <div class="form-group" style="margin: 10px">
+          <input type="submit" value="Login" class="btn btn-success">
+          <a href="/signup" class="btn btn-danger">SignUp</a>
+        </div>
+        <br>
+
+    </center>
+  </form>
+</div>
+</body>
+</html>

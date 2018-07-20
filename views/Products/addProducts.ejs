@@ -1,0 +1,63 @@
+<%- include('../Partials/navbar.ejs') %>
+
+<div class="container">
+    <h1 style="text-align: center; margin: 40px;"><%= title %></h1>
+
+    <% if(msg.length){ %>
+    <div class="alert alert-info alert-dismissible fade in" style="width: 80%;text-align: center;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong><%= msg %></strong>
+    </div>
+    <% } %>
+
+    <form action="/product/add" method="post" class="form-horizontal" id="form" enctype="multipart/form-data" >
+
+        <div class="col-sm-4">
+            <center>
+                <div class="form-group">
+                    <label>Product Name :</label>&nbsp;&nbsp;<label id="avilability"></label><br/>
+                    <input type="text" required="" name="pname" class="form-control" id="username"><br/>
+                </div>
+                <div class="form-group">
+                    <label>Product Description :</label><br/>
+                    <textarea type="text" rows="5" required="" name="pdesc" class="form-control"></textarea><br/>
+                </div>
+
+
+            </center>
+        </div>
+
+        <div class="col-sm-3"></div>
+        <div class="col-sm-5">
+
+            <div class="form-group">
+                <label>Product Price :</label><br/>
+                <input type="text" required="" name="price" class="form-control" maxlength="10" id="phone"><br/>
+            </div>
+            <div class="form-group">
+                <label>Product Quantity :</label><br/>
+                <input type="text" required="" name="quantity" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Upload Product Photo</label>
+                <input  multiple="multiple" name="productPhoto" type="file" class="form-control"  accept="image/*"
+                       required/>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+                <input type="submit" value="Add Product" class="btn btn-primary" style="margin-top: 30px;">
+                <a class="btn btn-primary" href="/" style="margin-top: 30px">Home</a>
+
+        </div>
+
+    </form>
+</div>
+</div>
+</div> <!--Header-->
+<script>
+
+</script>
+</body>
+</html>

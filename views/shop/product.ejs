@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= title %></title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<style>
+    .header-body {
+        background-color: #09929f;
+        margin: 0px;
+        padding: 20px;
+        color: #fff;
+        width: 100%;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        font-weight: 500;
+        text-align: center;
+        font: bold 30px Georgia;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h3 class="header-body">Welcome To Shopping Clues
+        <div class="dropdown" style="float: right; margin-right: 80px;">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><img
+                        src="/images/setting.png" class=""/></button>
+            <ul class="dropdown-menu ">
+                <li><a href="/viewcart">View Your Cart</a></li>
+                <li><a href="/">Login</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </h3>
+</header>
+
+<a class="btn" style="float: right;color:white;font-size:20px;" href="/viewcart">View Your Cart</a></h3>
+
+<div class="container">
+    <div>
+
+        <div>
+            <h4 style="text-align: right; margin-right: 150px;">Sort By: &nbsp
+                <select name="val" class="btn btn-primary" id="hlo" onChange="myFunction()" style="float: right">
+                    <option value="doNothing">Choose Criteria</option>
+                    <option value="lth">Low to High</option>
+                    <option value="htl">High to Low</option>
+                    <option value="atz">A to Z</option>
+                    <option value="zta">Z to A</option>
+                </select>
+            </h4>
+            <br/>
+            <br/>
+        </div>
+    </div>
+    <div id="msg"></div>
+    <div id="products-list">
+
+    </div>
+
+
+</div>
+<script>
+
+    var k = 0;
+    data = {};
+    limit = 0;
+    value = $("#"+"hlo option:selected").text();
+    function updatePage(page_no) {
+        data.page=page_no;
+        data.value=value;
+        console.log(data);
+        common(data);
+    }
+
+    var z = 0;
+    username = '<%= username %>';
+    common({'page': 1,value:value});
+
+    function common(data) {
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: '/productlist',
+            data: JSON.stringify(data),
+            success: function (data) {
+                $('#list').remove();
+                $('#def').remove();
+                var middle = "";
+                middle += '<div id="list">'
+                for (i = 0; i < data.response.length; i++) {
+
+                    middle += '<div class="background-pic container prodlist col-sm-4"  ><div class="">'
+                    middle += '<h4 ><a href="#" style="text-decoration: none" ><b>' + data.response[i].productName + '</b></a></h4>'
+                    middle += '</div>'
+                    middle += '<div style="margin-left:50px;"><h5>(' + data.response[i].productDesc + ')</h5></div>' +
+                        '<div style="margin-left:50px;color: #9f2e25;">' +
+                        '<h4><b>**Rs. ' + data.response[i].productPrice + '</b> '
+                    if (data.response[i].productQuantity <= 0) {
+                        middle+='&nbsp;<div class="card bg-danger text-white">\n' +
+                            '    <div class="card-body">Out of stock</div>\n' +
+                            '  </div>'
+                    }
+                    else {
+                        middle += '&nbsp; <select id=' + data.response[i]._id + "value" + ' value="Choose Quantity" class=" quantity-details" >'
+                        for (var quan = 1; quan <= data.response[i].productQuantity; quan++) {
+                            middle += '<option id=' + quan + ' >' + quan + '</option>'
+                        }
+                    }
+                    middle += '</select></div><br/></h4>'
+                    middle += '<div style="margin-left:50px;">' +
+                        '<img src="/Upload/Product/' + data.response[i].productPhoto[0] + '" class="product-pic profilePic"></div>'
+                    middle += '<button class="btn btn-primary" style="margin-left: 50px ;margin-top: 10px" id="' + data.response[i]._id + '" onclick="addToCart(this.id)">Add To Cart</button></div>'
+                }
+                middle += '</div>'
+                $('#products-list').append(middle);
+                var final = "";
+                if (data.pages > 0) {
+                    final += '<div id="def"><center><ul class="pagination text-center">';
+                    var i = (Number(data.pageNo) > 2 ? Number(data.pageNo) - 1 : 1);
+                    if (i !== 1) {
+                        final += '<li class="disabled"><a>...</a></li>';
+                    }
+                    for (; i <= (Number(data.pageNo) + 1) && i <= data.pages; i++) {
+                        if (i == data.pageNo) {
+                            final += '<li class="active"><a>' + i + '</a></li>';
+                        } else {
+                            final += '<li onclick="updatePage(this.id)" id="' + i + '"><a>' + i + '</a></li>';
+                        }
+                        if (i == Number(data.pageNo) + 1 && i < data.pages) {
+                            final += '<li class="disabled"><a>...</a></li>';
+                        }
+                    }
+
+                    final += '</ul>';
+                    final += '</center></div>';
+                }
+                $('#products-list').append(final);
+            },
+            error: function (response) {
+                alert('Something went wrong');
+            }
+        });
+    }
+
+    function addToCart(id) {
+
+        //console.log('hlo '+'/productdetails/'+id);
+        // console.log("#"+id+"value")
+        quantity = $("#" + id + "value option:selected").text();
+        console.log(quantity);
+        data = {id: id, quant: quantity};
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: '/addtocart/' + id,
+            data: JSON.stringify(data),
+            success: function (response) {
+                $('#msg').append(' <div class="alert alert-info alert-dismissible in" style="width: 100%;text-align: center;">\
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\
+                <strong>' + response + ' </strong>\
+                </div>\
+            ')
+            },
+            error: function (response) {
+                alert('Something went wrong');
+            }
+        })
+    }
+
+    var myDropdown = document.getElementsByName('val')[0];
+
+    function myFunction() {
+        if (myDropdown.value === "lth") {
+            sortByPrice(1);
+        }
+        else if (myDropdown.value == "htl") {
+            sortByPrice(-1);
+        }
+        else if (myDropdown.value == "atz") {
+            sortByName(1);
+        } else if (myDropdown.value == "zta") {
+            sortByName(-1);
+        }
+    }
+
+
+    var myDropdown1 = document.getElementsByName('val1')[0];
+
+    function myFunction1() {
+        if (myDropdown1.value == "5") {
+            display(5);
+        }
+        else if (myDropdown1.value == "10") {
+            display(10);
+        }
+        else if (myDropdown1.value == "15") {
+            display(15);
+        } else if (myDropdown1.value == "20") {
+            display(20);
+        }
+    }
+
+    function display(val) {
+        data = {};
+        data.limit = val;
+        console.log('sda');
+        common(data);
+    }
+
+    function sortByPrice(sortval) {
+        data = {};
+        console.log("hlo");
+        //data.skip = skip;
+        data.sort = {productPrice: sortval};
+        //data.skipval = 2;
+        common(data);
+    }
+
+    function sortByName(sortval) {
+        data = {};
+        data.sort = {productName: sortval};
+        common(data);
+    }
+
+    function logout() {
+        $.confirm({
+            title: 'Confirm Logout!',
+            content: 'Do you really want logout?',
+            buttons: {
+                'Yes': {
+                    btnClass: 'btn-success',
+                    action: function () {
+                        window.location.replace("/logout");
+                    }
+                },
+                'No': {btnClass: 'btn-danger',}
+            }
+        });
+    }
+</script>
+</body>
+</html>

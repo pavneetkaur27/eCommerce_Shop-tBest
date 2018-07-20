@@ -1,0 +1,40 @@
+<%- include('../Partials/navbar.ejs') %>
+
+<div class="container" id=" product-details">
+    Product._id
+</div>
+<script>
+    // console.log('hi' +._id);
+    data = {};
+    $ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: '/productlist/',
+        data: JSON.stringify(data),
+        success: function (response) {
+            $('#product-details').append(' <div class="col-sm-7">\
+                <div style="margin-left:50px;">\
+                <img src="/Upload/Product/'+ response.productPhoto +'class="product-pic ">\
+                </div>\
+                </div>\
+                <div class="col-sm-4">\
+                <div class="productname">\
+                <h3><b>'+ response.productName +'</b></h3>\
+                </div>\
+                <div style="margin-left:50px;">\
+                <h4>('+ response.productDesc +')</h4>\
+                </div>\
+                <div style="margin-left:50px;color: #9f2e25;">\
+                <h4><b>**Rs.'+ response.productPrice +'</b></h4>\
+                </div>\
+                <br/>\
+                </div>\
+            ');
+        },
+        error: function (response) {
+            alert('Something went wrong');
+        }
+    });
+</script>
+</body>
+</html>

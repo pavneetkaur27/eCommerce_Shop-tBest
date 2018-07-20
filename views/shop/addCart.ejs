@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= title %></title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+<style>
+    .header-body {
+        background-color: #09929f;
+        margin: 0px;
+        padding: 20px;
+        color: #fff;
+        width: 100%;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        font-weight: 500;
+        text-align: center;
+        font: bold 30px Georgia;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h3 class="header-body">Welcome To Shopping Clues
+    <button class="btn" style="float: right;background-color: transparent;font-size:20px;">View Your Cart</button>
+    </h3>
+</header>
+
+<div class="container background-pic" style="width: 500px">
+
+    <div style="margin-left:50px;">
+        <img src="/Upload/Product/<%= Product.productPhoto %>" class="product-pic">
+    </div>
+
+    <div class="productname">
+        <h3><b><%= Product.productName %></b></h3>
+    </div>
+    <div style="margin-left:50px;">
+        <h4>(<%= Product.productDesc %>)</h4>
+    </div>
+    <div style="margin-left:50px;color: #9f2e25;">
+        <h4><b>**Rs.' <%= Product.productPrice %></b></h4>
+    </div>
+    <br/>
+    <button class="btn btn-primary"  >Add To Cart</button>
+</div>
+
+
+</body>
+</html>
