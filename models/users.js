@@ -8,9 +8,8 @@ var loginModel = mongoose.Schema({
         city                                :String,
         productId                           :[{"productids":String , "quantity":Number}],
         productQuantity                     :[String],
-
     }
 );
 
-
+//implement indexing on username
 module.exports= mongoose.model('login',loginModel);

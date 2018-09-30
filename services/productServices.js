@@ -20,7 +20,7 @@ var addProducts = function (payload,pics, callback) {
 }
 
 var getOneProduct = function ( criteria, projections, options, callback){
-    options.lean = true;
+    options.lean = true; // what lean option does
     models.productModels.findOne( criteria, projections, options, callback )
 }
 

@@ -65,6 +65,7 @@ app.use(function (req, res, next) {
     res.locals.session = session;
     next();
 })
+
 app.use('/', index);
 app.use('/product', product);
 

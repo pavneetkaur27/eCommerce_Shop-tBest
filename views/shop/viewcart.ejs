@@ -57,9 +57,9 @@
             <h4 class=""><%= productlist[i].productName %></h4>
             <p class="">Price:<%= productlist[i].productPrice %>
                 <br/>Number of Quantities: <%=qty[i] %></p>
-            <button class="btn btn-primary" style="margin-top: 5px;" id="<%= productlist[i]._id %>"
+            <!--<button class="btn btn-primary" style="margin-top: 5px;" id="<%= productlist[i]._id %>"
                     onclick="remove(this.id)">Remove from cart
-            </button>
+            </button>-->
         </div>
     </div>
 
@@ -70,7 +70,31 @@
 
 </div>
 <script>
-    //name=''
+/* ye ajax ke through complete krna hai
+    data={}
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: '/viewcart',
+        data: JSON.stringify(data),
+        success:function (response) {
+            var middle="";
+            middle+='<div  style="width: 50% ;margin-top: 50px" class="container ">';
+            for( var i = 0;i < response.productlist.length;i++) {
+                middle+='<div class="col-sm-6 "style="margin-top: 10px">' +
+                    '<img class=" product-pic" src="/Upload/Product/'+response.productlist[i].productPhoto[0]+' alt="Card image" >' +
+                    '<div class=""><h4 class="">'+ response.productlist[i].productName+'</h4>' +
+                    '<p class="">Price:'+response.productlist[i].productPrice +'<br/>Number of Quantities: '+response.qty[i] +'</p>' +
+                    '<button class="btn btn-primary" style="margin-top: 5px;" id="'+ response.productlist[i]._id +'"' +
+                    'onclick="remove(this.id)">Remove from cart</button> </div></div>'
+            }
+            middle+='</div>'
+
+        },
+        error:function (response) {
+            alert('Something went Wrong');
+        }
+    })
     function remove(id) {
         var res = confirm("Do You want to remove this from from cart?");
         if (res == true) {
@@ -91,7 +115,7 @@
         else {
             window.location.replace('/viewcart');
         }
-    }
+    }*/
 </script>
 
 </body>

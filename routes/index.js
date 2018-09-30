@@ -14,7 +14,7 @@ const Product = require('../models/productModels');
 /* GET home page. */
 
 router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Shopping Clues', err: ''});
+    res.render('index', {title: 'Shop@tBest', err: ''});
 });
 
 router.post('/', function (req, res, next) {
@@ -23,7 +23,7 @@ router.post('/', function (req, res, next) {
         if (err)
             return res.send(err);
         else if (!user)
-            return res.render('index', {title: 'Shopping Clues', err: 'Invalid username and password'});
+            return res.render('index', {title: 'Shop@tBest', err: 'Invalid username and password'});
         // console.log("hlo "+req.body.toString);
         if (data.username == 'pavi') {
             res.redirect('/product/add');
@@ -90,13 +90,13 @@ router.post('/productlist', function (req, res, next) {
     // var option=req.body;
     var perPage = 6;
     var page = req.body.page || 1;
-    console.log("hi "+req.body.value);
-    if(req.body.sort){
+    console.log("hi " + req.body.value);
+    if (req.body.sort) {
         var val = req.body.sort;
-        req.session.sortvalue=val;
+        req.session.sortvalue = val;
     }
-    else if(req.session.sortvalue && req.body.value!='Choose Criteria'){
-        val=req.session.sortvalue;
+    else if (req.session.sortvalue && req.body.value != 'Choose Criteria') {
+        val = req.session.sortvalue;
     }
     console.log(req.body.sort);
     models.productModels.find({}).skip((perPage * page) - perPage).limit(perPage).sort(val).exec(function (err, response) {
@@ -128,7 +128,7 @@ router.post('/addtocart/:data', function (req, res, next) {
     //console.log(id);
     var name = req.session.user;
     var quantity = req.body.quant;
-    console.log("hi g" + quantity + " " + name);
+    //console.log("hi g" + quantity + " " + name);
     if (name != undefined) {
         controllers.userControllers.getOneUser({username: name}, {
             productId: 1,
@@ -137,7 +137,7 @@ router.post('/addtocart/:data', function (req, res, next) {
                 res.status(400).send(err);
             } else {
                 var length = responses.productId.length;
-                var pid = responses.productId?responses.productId:[];
+                var pid = responses.productId ? responses.productId : [];
                 var prevqty = 0;
                 for (var i = 0; i < length; i++) {
                     if (responses.productId[i].productids == id) {
@@ -146,7 +146,7 @@ router.post('/addtocart/:data', function (req, res, next) {
                         break;
                     }
                 }
-               // console.log(pid);
+                // console.log(pid);
                 objProduct.productids = id;
                 objProduct.quantity = quantity;
                 pid.push(objProduct);
@@ -181,11 +181,10 @@ router.post('/addtocart/:data', function (req, res, next) {
             }
         })
     } else {
-        res.send( "Please Login To add to cart");
+        res.send("Please Login To add to cart");
     }
 
 });
-
 
 router.get('/viewcart', function (req, res, next) {
     var name = req.session.user;
@@ -241,6 +240,70 @@ router.get('/viewcart', function (req, res, next) {
     }
 });
 
+/*  ye pura portion ajax ke sath use hoga ...
+
+router.get('/viewcart', function (req, res, next) {
+
+    var name = req.session.user;
+    if (name != undefined) {
+        res.render('shop/viewcart', {title: "View your Cart"});
+    } else {
+        res.render('error', "Please Login To view cart");
+    }
+});
+
+
+router.post('/viewcart', function (req, res, next) {
+    var name = req.session.user;
+    var qty = [];
+        models.users.findOne({username: name}, {productId: 1}, (err, response) => {
+            if (err) {
+                return res.send(err);
+            } else {
+                var ids = [];
+                //   var id = mongoose.mongo.ObjectId(ids);
+                console.log(response);
+                var len = response.productId.length;
+                //console.log(response);
+                for (var i = 0; i < len; i++) {
+                    ids[i] = mongoose.mongo.ObjectId(response.productId[i].productids);
+                }
+                //  console.log(len);
+                controllers.productControllers.findProducts({_id: {$in: ids}}, {
+                    productName: 1,
+                    productQuantity: 1,
+                    productPrice: 1,
+                    productPhoto: 1
+                }, {}, (err, responses) => {
+                    if (err) {
+                        console.log(err);
+                        res.status(400).send(err);
+                    } else {
+                        console.log(responses);
+                        var val = 0;
+                        for (var j = 0; j < len; j++) {
+                            for (var k = 0; k < len; k++) {
+                                if (responses[j]._id == response.productId[k].productids) {
+                                    qty[val] = response.productId[k].quantity;
+                                    val++;
+                                    break;
+                                }
+                            }
+                        }
+                        console.log("hlo " + responses[0].productPhoto[0]);
+                        res.send({productlist: responses,username: name, qty: qty});
+                        /*res.render('shop/viewcart', {
+                            title: "View your Cart",
+                            productlist: responses,
+                            username: name,
+                            qty: qty
+                        });*/
+                   /* }
+                });
+            }
+        });
+});
+
 router.post('/removefromcart', function (req, res, next) {
     var name = req.body.username;
     var productid = req.body.id;
@@ -272,6 +335,7 @@ router.post('/removefromcart', function (req, res, next) {
         }
     });
 });
+*/
 
 router.get('/logout', function (req, res) {
     req.logout();

@@ -6,11 +6,13 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="" type="image/x-icon" />
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
@@ -34,11 +36,14 @@
 <header>
     <h3 class="header-body">Welcome To Shopping Clues
         <div class="dropdown" style="float: right; margin-right: 80px;">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><img
-                        src="/images/setting.png" class=""/></button>
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                <i class="fa fa-cog"></i>
+            </button>
             <ul class="dropdown-menu ">
                 <li><a href="/viewcart">View Your Cart</a></li>
+                <% if(username==''){%>
                 <li><a href="/">Login</a></li>
+                <%}%>
                 <li class="divider"></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
